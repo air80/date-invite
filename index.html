@@ -38,7 +38,6 @@
     padding:24px;
   }
 
-  /* subtle floating background hearts */
   .bg-hearts{
     position:fixed;
     inset:0;
@@ -65,17 +64,22 @@
     background:#fff;
     border-radius:28px;
     box-shadow:var(--card-shadow);
-    padding:48px 40px 40px;
-    max-width:520px;
+    padding:40px 30px 32px;
+    max-width:540px;
     width:100%;
     text-align:center;
     border:3px solid var(--rose);
-    animation: pop 0.5s cubic-bezier(.2,1.4,.4,1) both;
+  }
+
+  .screen{
+    animation: pop 0.45s cubic-bezier(.2,1.4,.4,1) both;
   }
   @keyframes pop{
     0%{ transform:scale(0.85); opacity:0; }
     100%{ transform:scale(1); opacity:1; }
   }
+
+  .hidden{ display:none !important; }
 
   .eyebrow{
     display:inline-block;
@@ -87,25 +91,43 @@
     background:#FFE3EB;
     padding:6px 16px;
     border-radius:999px;
-    margin-bottom:18px;
+    margin-bottom:16px;
   }
 
   h1{
     font-family:'Baloo 2', sans-serif;
     font-weight:800;
-    font-size:clamp(26px, 6vw, 34px);
+    font-size:clamp(24px, 5.6vw, 32px);
     line-height:1.5;
     margin:0 0 10px;
     color:var(--plum);
   }
 
+  h2{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:clamp(21px, 4.8vw, 25px);
+    margin:0 0 6px;
+    color:var(--rose-deep);
+  }
+
   .sub{
-    font-size:15px;
+    font-size:14.5px;
     color:#8a6272;
-    margin:0 0 34px;
+    margin:0 0 22px;
     line-height:1.9;
   }
 
+  button{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    border:none;
+    border-radius:16px;
+    cursor:pointer;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+
+  /* ---------- Screen 1: Yes / No ---------- */
   .btn-row{
     position:relative;
     display:flex;
@@ -117,55 +139,58 @@
   }
 
   #yesBtn{
-    max-width:100%;
-    white-space:normal;
-    line-height:1.2;
-  }
-
-  button{
-    font-family:'Baloo 2', sans-serif;
-    font-weight:700;
-    font-size:18px;
-    border:none;
-    border-radius:16px;
-    padding:16px 30px;
-    cursor:pointer;
-    transition: transform .15s ease, box-shadow .15s ease;
-  }
-
-  #yesBtn{
     background:var(--rose);
     color:#fff;
+    font-size:18px;
+    padding:16px 30px;
+    max-width:100%;
+    white-space:normal;
+    line-height:1.15;
     box-shadow:0 10px 20px -8px rgba(232,82,122,0.6);
+    position:relative;
+    z-index:3;
   }
-  #yesBtn:hover{
-    transform:scale(1.08);
-    box-shadow:0 14px 26px -8px rgba(232,82,122,0.75);
-  }
+  #yesBtn:hover{ filter:brightness(1.03); }
   #yesBtn:active{ transform:scale(0.97); }
 
-  #noBtn{
-    background:#F1E6E9;
-    color:var(--rose-deep);
-    position:relative;
-    z-index:2;
-    box-shadow:0 6px 14px -6px rgba(59,31,43,0.25);
-    transition: transform .1s ease, background .15s ease, box-shadow .15s ease;
+  #yesBtn.mega{
+    position:fixed;
+    inset:0;
+    width:100vw;
+    height:100vh;
+    max-width:none;
+    border-radius:0;
+    font-size:13vw !important;
+    padding:0 !important;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    z-index:999;
+    box-shadow:none;
+    animation: megaPop .5s cubic-bezier(.2,1.4,.4,1) both;
   }
-  #noBtn:hover{
-    background:#EAD8DD;
-    box-shadow:0 8px 16px -6px rgba(59,31,43,0.3);
-  }
-  #noBtn:active,
-  #noBtn.pressed{
-    transform:scale(0.9);
-    background:#E3CDD4;
-    box-shadow:0 3px 8px -4px rgba(59,31,43,0.3);
+  @keyframes megaPop{
+    0%{ transform:scale(0.3); opacity:0.4; }
+    100%{ transform:scale(1); opacity:1; }
   }
 
-  .no-wrap{
+  .no-wrap{ position:relative; display:inline-block; }
+
+  #noBtn{
+    background:var(--plum);
+    color:#fff;
     position:relative;
-    display:inline-block;
+    z-index:2;
+    font-size:18px;
+    padding:16px 30px;
+    box-shadow:0 6px 14px -6px rgba(59,31,43,0.4);
+    transition: transform .1s ease, background .15s ease, box-shadow .15s ease, opacity .25s ease, font-size .2s ease, padding .2s ease;
+  }
+  #noBtn:hover{ background:#2A1520; }
+  #noBtn:active, #noBtn.pressed{
+    transform:scale(0.9);
+    background:#1F0F17;
   }
 
   .taunt{
@@ -182,6 +207,7 @@
     opacity:0;
     transition:opacity .2s ease;
     pointer-events:none;
+    z-index:1000;
   }
   .taunt::after{
     content:"";
@@ -194,109 +220,202 @@
   }
   .taunt.show{ opacity:1; }
 
-  .yes-size {
-    transition: font-size .25s ease, padding .25s ease;
-  }
-
-  /* success state */
-  .success{
-    display:none;
-    flex-direction:column;
-    align-items:center;
-    gap:8px;
-  }
-  .success.show{ display:flex; animation: pop 0.4s ease both; }
-  .success .big{
-    font-size:54px;
-    line-height:1;
-  }
-  .success h2{
-    font-family:'Baloo 2', sans-serif;
-    font-size:22px;
-    margin:6px 0 4px;
-    color:var(--rose-deep);
-  }
-  .success p{
-    font-size:14px;
-    color:#8a6272;
-    margin:0;
-  }
-
-  .hidden{ display:none !important; }
-
-  .day-select{
-    animation: pop 0.4s cubic-bezier(.2,1.4,.4,1) both;
-  }
-  .day-title{
-    font-size:clamp(24px, 5.5vw, 30px);
-  }
-  .day-grid{
-    display:grid;
-    grid-template-columns:repeat(2, 1fr);
-    gap:12px;
-    margin-top:6px;
-  }
-  .dayBtn{
-    background:#FFE9C7;
-    color:var(--rose-deep);
-    font-size:16px;
-    padding:14px 12px;
-    box-shadow:0 6px 14px -6px rgba(59,31,43,0.2);
-  }
-  .dayBtn:hover{
-    background:var(--gold);
-    color:var(--plum);
-    transform:translateY(-2px);
-    box-shadow:0 10px 18px -8px rgba(59,31,43,0.3);
-  }
-  .dayBtn:active{
-    transform:scale(0.94);
-  }
-  @media (max-width:380px){
-    .day-grid{ grid-template-columns:repeat(2, 1fr); }
-  }
-
-  .time-chip{
-    margin-top:14px;
-    font-family:'Baloo 2', sans-serif;
-    font-weight:700;
-    font-size:20px;
-    color:#fff;
-    background:linear-gradient(135deg, var(--rose), var(--rose-deep));
-    padding:12px 26px;
-    border-radius:14px;
-    box-shadow:0 10px 22px -8px rgba(196,58,97,0.5);
-    animation: pop 0.5s cubic-bezier(.2,1.4,.4,1) both;
-    animation-delay:.3s;
-    opacity:0;
-    animation-fill-mode:forwards;
-  }
-
-  .confetti{
-    position:fixed;
-    top:-10px;
-    z-index:5;
-    border-radius:2px;
-    pointer-events:none;
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    .bg-hearts span{ animation:none; display:none; }
-    .card{ animation:none; }
-  }
-
   footer.hint{
     margin-top:22px;
     font-size:12px;
     color:#c79aa9;
     transition: font-size .25s ease, color .25s ease;
   }
-
   footer.hint.emphasize{
     font-family:'Baloo 2', sans-serif;
     font-weight:700;
     font-size:18px;
     color:var(--rose-deep);
+  }
+
+  /* ---------- Screen 2: Yes confirm ---------- */
+  .big-emoji{ font-size:48px; margin-bottom:6px; }
+
+  .primary-btn{
+    background:var(--rose);
+    color:#fff;
+    font-size:16.5px;
+    padding:15px 28px;
+    box-shadow:0 10px 20px -8px rgba(232,82,122,0.6);
+    margin-top:8px;
+  }
+  .primary-btn:hover{ transform:scale(1.05); }
+  .primary-btn:active{ transform:scale(0.96); }
+  .primary-btn:disabled{
+    opacity:.4;
+    cursor:not-allowed;
+    transform:none !important;
+  }
+
+  textarea.notes-box{
+    width:100%;
+    min-height:100px;
+    border:2px solid #F1D3DC;
+    border-radius:14px;
+    padding:12px 14px;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:14px;
+    resize:vertical;
+    color:var(--plum);
+    margin-bottom:16px;
+  }
+  textarea.notes-box:focus{
+    outline:none;
+    border-color:var(--rose);
+  }
+
+  /* ---------- Screen 3: monthly calendar + time ---------- */
+  .section-label{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    color:var(--plum);
+    margin:18px 0 8px;
+    text-align:right;
+  }
+
+  .cal-header{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:16px;
+    color:var(--rose-deep);
+    margin-bottom:8px;
+  }
+
+  .cal-grid{
+    display:grid;
+    grid-template-columns:repeat(7, 1fr);
+    gap:5px;
+  }
+  .cal-wd{
+    font-size:11px;
+    color:#a97b8a;
+    padding:4px 0;
+    font-weight:700;
+  }
+  .cal-day{
+    aspect-ratio:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#FFF1E9;
+    border-radius:10px;
+    font-size:13px;
+    color:var(--plum);
+    cursor:pointer;
+    transition:transform .12s ease, background .12s ease;
+  }
+  .cal-day:hover{ transform:scale(1.06); }
+  .cal-day.selected{
+    background:var(--rose);
+    color:#fff;
+    font-weight:700;
+  }
+  .cal-day.empty{
+    background:transparent;
+    cursor:default;
+  }
+  .cal-day.today{
+    box-shadow: inset 0 0 0 2px var(--gold);
+  }
+
+  .time-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:8px;
+    margin-bottom:8px;
+  }
+  .time-btn{
+    background:#FFE9C7;
+    color:var(--rose-deep);
+    font-size:13px;
+    padding:12px 4px;
+    box-shadow:0 4px 10px -4px rgba(59,31,43,0.15);
+  }
+  .time-btn.selected{
+    background:var(--gold);
+    color:var(--plum);
+    transform:scale(1.05);
+  }
+
+  /* ---------- icon grids (activities + food) ---------- */
+  .icon-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:12px;
+    margin-top:6px;
+  }
+  .icon-card{
+    background:#FCF8F4;
+    border:2px solid transparent;
+    border-radius:16px;
+    padding:14px 6px 10px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:12.5px;
+    color:var(--plum);
+    box-shadow:0 4px 10px -4px rgba(59,31,43,0.12);
+  }
+  .icon-badge{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .icon-badge svg{
+    width:24px;
+    height:24px;
+    fill:none;
+    stroke-width:1.8;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .icon-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 18px -8px rgba(59,31,43,0.22);
+  }
+  .icon-card.selected{
+    border-color:var(--rose);
+    background:#FFF3F6;
+  }
+
+  @media (max-width:400px){
+    .icon-grid{ grid-template-columns:repeat(2, 1fr); }
+  }
+
+  /* ---------- Screen final ---------- */
+  .summary-box{
+    text-align:right;
+    background:#FFF3F6;
+    border-radius:16px;
+    padding:16px 18px;
+    margin-top:14px;
+    font-size:14px;
+    line-height:2.1;
+  }
+  .summary-box b{ color:var(--rose-deep); }
+
+  .confetti{
+    position:fixed;
+    top:-10px;
+    z-index:1001;
+    border-radius:2px;
+    pointer-events:none;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .bg-hearts span{ animation:none; display:none; }
   }
 </style>
 </head>
@@ -304,14 +423,15 @@
 
   <div class="bg-hearts" id="bgHearts"></div>
 
-  <div class="card">
-    <span class="eyebrow">یه پیام خصوصی برات دارم</span>
-    <div id="question">
-      <h1>میای بریم دریاچه بستنی بخوریم؟ 🍦🏞️</h1>
-      <p class="sub">فقط کافیه رو یکی از دکمه‌ها بزنی... البته یکیشون یکم رفتاراش عجیبه :)</p>
+  <div class="card" id="mainCard">
+    <span class="eyebrow" id="eyebrow">یه پیام خصوصی برات دارم</span>
 
+    <!-- Screen 1: question -->
+    <div class="screen" id="question">
+      <h1>میای با هم بریم بیرون و خوش بگذرونیم؟ 😍</h1>
+      <p class="sub">فقط کافیه رو یکی از دکمه‌ها بزنی... البته یکیشون یکم رفتاراش عجیبه :)</p>
       <div class="btn-row">
-        <button id="yesBtn" class="yes-size" onclick="sayYes()">بله، میام! 😍</button>
+        <button id="yesBtn" onclick="sayYes()">بله، حتماً! 😍</button>
         <div class="no-wrap">
           <div class="taunt" id="taunt"></div>
           <button id="noBtn">نه</button>
@@ -319,56 +439,134 @@
       </div>
     </div>
 
-    <div class="day-select hidden" id="daySelect">
-      <h1 class="day-title">پس کدوم روز؟ 📅</h1>
-      <p class="sub">یه روز رو انتخاب کن تا قرارمون قطعی بشه</p>
-      <div class="day-grid">
-        <button class="dayBtn" onclick="chooseDay('شنبه')">شنبه</button>
-        <button class="dayBtn" onclick="chooseDay('یک‌شنبه')">یک‌شنبه</button>
-        <button class="dayBtn" onclick="chooseDay('دوشنبه')">دوشنبه</button>
-        <button class="dayBtn" onclick="chooseDay('سه‌شنبه')">سه‌شنبه</button>
-        <button class="dayBtn" onclick="chooseDay('چهارشنبه')">چهارشنبه</button>
-        <button class="dayBtn" onclick="chooseDay('پنج‌شنبه')">پنج‌شنبه</button>
-        <button class="dayBtn" onclick="chooseDay('جمعه')">جمعه</button>
-      </div>
+    <!-- Screen 2: yes confirmation -->
+    <div class="screen hidden" id="yesConfirm">
+      <div class="big-emoji">🥰</div>
+      <h2>عالی شد و خیلی خوشحالم کردی!</h2>
+      <p class="sub">حالا بریم یه چیزایی رو با هم مشخص کنیم</p>
+      <button class="primary-btn" onclick="goToDetails()">بریم برای جزئیات ✨</button>
     </div>
 
-    <div class="success" id="success">
-      <div class="big">🎉🍦</div>
-      <h2>عالیه!</h2>
-      <div class="time-chip" id="timeChip"></div>
+    <!-- Screen 3: calendar + time -->
+    <div class="screen hidden" id="detailsScreen">
+      <h2>کی همو ببینیم؟</h2>
+      <p class="sub">یه روز و یه ساعت رو انتخاب کن</p>
+
+      <div class="section-label">📅 روز</div>
+      <div class="cal-header" id="calHeader"></div>
+      <div class="cal-grid" id="calGrid"></div>
+
+      <div class="section-label">🕕 ساعت</div>
+      <div class="time-grid" id="timeGrid"></div>
+
+      <button class="primary-btn" id="continueBtn1" onclick="goToActivity()" disabled>ادامه ✨</button>
+    </div>
+
+    <!-- Screen 4: activity -->
+    <div class="screen hidden" id="activityScreen">
+      <h2>حس و حالت بیشتر روی کدومشه؟</h2>
+      <p class="sub">یکی رو انتخاب کن</p>
+      <div class="icon-grid" id="activityGrid"></div>
+    </div>
+
+    <!-- Screen 5: notes + city preference -->
+    <div class="screen hidden" id="notesScreen">
+      <h2>چیز دیگه‌ای هست؟</h2>
+      <p class="sub">اگه چیزی از قلم افتاده یا جزئیات خاصی می‌خوای، اینجا بنویس (اختیاریه)</p>
+      <textarea class="notes-box" id="notesBox" placeholder="مثلاً: ترجیح می‌دم فلان جا باشه، یا هر نکته‌ی دیگه..."></textarea>
+
+      <div class="section-label">🧭 کدوم سمت شهر ترجیح می‌دی بریم؟</div>
+      <textarea class="notes-box" id="cityBox" style="min-height:60px" placeholder="مثلاً: سمت غرب شهر، یا نزدیک خونه‌ی خودم..."></textarea>
+
+      <button class="primary-btn" onclick="goToFood()">ادامه ✨</button>
+    </div>
+
+    <!-- Screen 6: food -->
+    <div class="screen hidden" id="foodScreen">
+      <h2>برای غذا چی می‌چسبه؟</h2>
+      <p class="sub">یکی رو انتخاب کن</p>
+      <div class="icon-grid" id="foodGrid"></div>
+    </div>
+
+    <!-- Screen 6.5: post-food notes -->
+    <div class="screen hidden" id="foodNotesScreen">
+      <h2>یه چیز دیگه هم بگو</h2>
+      <p class="sub">چیز دیگه‌ای درباره‌ی غذا یا هر چیز دیگه‌ای مونده؟ (اختیاریه)</p>
+      <textarea class="notes-box" id="foodNotesBox" placeholder="مثلاً: از فلان غذا خوشم نمیاد، یا هر نکته‌ی دیگه..."></textarea>
+      <button class="primary-btn" onclick="finishFlow()">تمومه، ثبتش کن ✨</button>
+    </div>
+
+    <!-- Screen 7: final -->
+    <div class="screen hidden" id="finalScreen">
+      <div class="big-emoji">💌</div>
+      <h2 id="finalTitle">مرسی، پس می‌بینمت!</h2>
+      <p class="sub" id="finalSub">همه چیزو دقیق یادداشت کردم، فقط منتظر اون روز باش 🥰</p>
+      <div class="summary-box" id="summaryBox"></div>
     </div>
 
     <footer class="hint" id="hint">راهنمایی: دکمه‌ی «نه» یکم خجالتیه…</footer>
   </div>
 
 <script>
-  const noBtn = document.getElementById('noBtn');
-  const yesBtn = document.getElementById('yesBtn');
-  const taunt = document.getElementById('taunt');
-  const card = document.querySelector('.card');
-  const hint = document.getElementById('hint');
-  const questionEl = document.getElementById('question');
-  const daySelectEl = document.getElementById('daySelect');
-  const successEl = document.getElementById('success');
-  const timeChip = document.getElementById('timeChip');
+  /* ===================== State ===================== */
+  const state = { day: null, time: null, activity: null, notes: '', cityPref: '', food: null, foodNotes: '' };
 
+  /* ===================== Elements ===================== */
+  const card = document.getElementById('mainCard');
+  const hint = document.getElementById('hint');
+  const eyebrow = document.getElementById('eyebrow');
+
+  const questionEl = document.getElementById('question');
+  const yesConfirmEl = document.getElementById('yesConfirm');
+  const detailsEl = document.getElementById('detailsScreen');
+  const activityEl = document.getElementById('activityScreen');
+  const notesEl = document.getElementById('notesScreen');
+  const foodEl = document.getElementById('foodScreen');
+  const foodNotesEl = document.getElementById('foodNotesScreen');
+  const finalEl = document.getElementById('finalScreen');
+
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+  const taunt = document.getElementById('taunt');
+
+  const calHeader = document.getElementById('calHeader');
+  const calGrid = document.getElementById('calGrid');
+  const timeGrid = document.getElementById('timeGrid');
+  const continueBtn1 = document.getElementById('continueBtn1');
+  const activityGrid = document.getElementById('activityGrid');
+  const notesBox = document.getElementById('notesBox');
+  const cityBox = document.getElementById('cityBox');
+  const foodGrid = document.getElementById('foodGrid');
+  const foodNotesBox = document.getElementById('foodNotesBox');
+  const summaryBox = document.getElementById('summaryBox');
+
+  /* ===================== Telegram notification ===================== */
+  const TELEGRAM_BOT_TOKEN = '8992385222:AAGEKu_XsRMPvz5QjNeD90aYbZuZXoZfMlU';
+  const TELEGRAM_CHAT_ID   = '1056020229';
+
+  function sendTelegramMessage(text){
+    if(TELEGRAM_BOT_TOKEN.includes('PASTE_') || TELEGRAM_CHAT_ID.includes('PASTE_')) return;
+    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text })
+    }).catch(() => {});
+  }
+
+  /* ===================== Screen 1: Yes / No dodge + exaggerated growth ===================== */
   const taunts = [
     "وا؟ کجا؟ 😅",
     "نچ، نمیشه گرفتش 😜",
     "بازم امتحان کن!",
     "فرار کردن تخصصمه 🏃‍♂️",
     "یکم بیشتر تلاش کن...",
-    "نزدیک بود ها!",
-    "این دکمه امروز کار نمی‌کنه 🙈",
-    "شاید بهتره «بله» رو بزنی؟",
-    "اصلاً همچین گزینه‌ای وجود نداره 😂"
+    "دیگه چیزی ازش نمونده!"
   ];
 
+  const YES_SIZES = [18, 26, 38, 56, 80, 110]; // px, per dodge 1..6 (in-flow, before mega takeover)
+  const MAX_DODGES = 6; // after this many, "no" fully vanishes and "yes" takes over the screen
   let dodgeCount = 0;
-  let yesScale = 18;
-  const YES_SCALE_STEP = 3.5;
-  const YES_SCALE_CAP = 60;
+  let noBtnGone = false;
 
   function randomPosInCard(elWidth, elHeight){
     const cardRect = card.getBoundingClientRect();
@@ -381,14 +579,13 @@
   }
 
   function dodge(){
+    if(noBtnGone) return;
     dodgeCount++;
 
-    // visible press feedback, since the button relocates before native :active can register
     noBtn.classList.add('pressed');
     clearTimeout(noBtn._pressT);
     noBtn._pressT = setTimeout(() => noBtn.classList.remove('pressed'), 150);
 
-    // make sure noBtn is positioned absolutely within card after first dodge
     if(noBtn.style.position !== 'absolute'){
       noBtn.style.position = 'absolute';
       card.style.position = 'relative';
@@ -397,16 +594,22 @@
     const w = noBtn.offsetWidth;
     const h = noBtn.offsetHeight;
     const {x, y} = randomPosInCard(w, h);
-
     noBtn.style.left = x + 'px';
     noBtn.style.top = y + 'px';
 
-    // grow yes button fast, capped
-    yesScale = Math.min(yesScale + YES_SCALE_STEP, YES_SCALE_CAP);
-    yesBtn.style.fontSize = yesScale + 'px';
-    yesBtn.style.padding = (16 + dodgeCount * 2) + 'px ' + (30 + dodgeCount * 3) + 'px';
+    // "no" shrinks mildly, staying fully visible until the very last dodge
+    const noScale = Math.max(1 - dodgeCount / (MAX_DODGES + 2), 0.55);
+    const noFontSize = 18 * noScale;
+    const noPad = 16 * noScale;
+    noBtn.style.fontSize = noFontSize + 'px';
+    noBtn.style.padding = noPad + 'px ' + (noPad * 1.8) + 'px';
+    noBtn.style.opacity = 1;
 
-    // show taunt
+    // "yes" grows in an exaggerated, accelerating way
+    const idx = Math.min(dodgeCount - 1, YES_SIZES.length - 1);
+    yesBtn.style.fontSize = YES_SIZES[idx] + 'px';
+    yesBtn.style.padding = (16 + dodgeCount * 3) + 'px ' + (30 + dodgeCount * 5) + 'px';
+
     const msg = taunts[Math.min(dodgeCount - 1, taunts.length - 1)];
     taunt.textContent = msg;
     taunt.classList.add('show');
@@ -416,70 +619,221 @@
     if(dodgeCount === 1){
       hint.textContent = 'به نظرم داره فرار می‌کنه 😄';
       hint.classList.remove('emphasize');
-    } else if(dodgeCount >= 4){
-      hint.textContent = 'وقشته تسلیم شی و «بله» رو بزنی! 😌';
+    } else if(dodgeCount >= 3 && !noBtnGone){
+      hint.textContent = 'وقتشه تسلیم شی و «بله» رو بزنی! 😌';
       hint.classList.add('emphasize');
     }
+
+    if(dodgeCount >= MAX_DODGES){
+      noBtnGone = true;
+      noBtn.style.display = 'none';
+      eyebrow.style.display = 'none';
+      document.querySelector('#question h1').style.display = 'none';
+      document.querySelector('#question .sub').style.display = 'none';
+      hint.style.display = 'none';
+      yesBtn.classList.add('mega');
+    }
   }
 
-  // mouse approach detection (desktop) — dodge before the click even lands
   document.addEventListener('mousemove', (e) => {
+    if(noBtnGone || questionEl.classList.contains('hidden')) return;
     const rect = noBtn.getBoundingClientRect();
-    const btnCenterX = rect.left + rect.width / 2;
-    const btnCenterY = rect.top + rect.height / 2;
-    const dist = Math.hypot(e.clientX - btnCenterX, e.clientY - btnCenterY);
-    if(dist < 70){
-      dodge();
-    }
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+    if(dist < 70) dodge();
   });
 
-  // touch / click fallback (mobile taps land directly on the button)
-  noBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    dodge();
-  }, {passive:false});
-
-  noBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    dodge();
-  });
-
-  // ====== Telegram notification ======
-  // 1) Message @BotFather on Telegram, send /newbot, follow the steps, and copy the token it gives you.
-  // 2) Send any message to your new bot once (so it can find your chat).
-  // 3) Open this in your browser (replace TOKEN): https://api.telegram.org/botTOKEN/getUpdates
-  //    Look for "chat":{"id": ...} and copy that number.
-  // 4) Paste both values below.
-  const TELEGRAM_BOT_TOKEN = '8992385222:AAGEKu_XsRMPvz5QjNeD90aYbZuZXoZfMlU';
-  const TELEGRAM_CHAT_ID   = '1056020229';
-
-  function sendTelegramMessage(text){
-  if(TELEGRAM_BOT_TOKEN.includes('PASTE_') || TELEGRAM_CHAT_ID.includes('PASTE_')) return;
-
-  const url =
-    `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(text)}`;
-
-  fetch(url, {
-    method: "GET",
-    mode: "no-cors"
-  });
-}
+  noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); dodge(); }, {passive:false});
+  noBtn.addEventListener('click', (e) => { e.preventDefault(); dodge(); });
 
   function sayYes(){
+    yesBtn.classList.remove('mega');
     questionEl.classList.add('hidden');
-    daySelectEl.classList.remove('hidden');
-    sendTelegramMessage('گفت بله میاد بستنی! 🍦🎉 منتظر روزیه که انتخاب می‌کنه...');
-  }
-
-  function chooseDay(day){
-    daySelectEl.classList.add('hidden');
-    timeChip.textContent = `${day} ساعت ۷ در باملند دریاچه می‌بینمت ⏰🍦`;
-    successEl.classList.add('show');
+    yesConfirmEl.classList.remove('hidden');
     hint.classList.add('hidden');
-    burstConfetti();
-    sendTelegramMessage(`روز انتخابی رو مشخص کرد: ${day} ساعت ۷ 📅`);
+    sendTelegramMessage('گفت بله میاد بیرون! 😍🎉 منتظر جزئیاته...');
   }
 
+  /* ===================== Screen 3: monthly calendar (مرداد) + time ===================== */
+  const WEEKDAYS_FA = ['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'];
+  const PERSIAN_DIGITS = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+
+  function toPersianDigits(num){
+    return String(num).replace(/[0-9]/g, d => PERSIAN_DIGITS[d]);
+  }
+
+  function buildCalendar(){
+    const jFmt = new Intl.DateTimeFormat('en-US-u-ca-persian', { year:'numeric', month:'numeric', day:'numeric' });
+    const today = new Date();
+    const mordadDays = []; // { jDay, jYear, date, gregWeekday }
+
+    for(let offset = -200; offset <= 200; offset++){
+      const d = new Date(today);
+      d.setDate(d.getDate() + offset);
+      const parts = jFmt.formatToParts(d);
+      const month = parseInt(parts.find(p => p.type === 'month').value, 10);
+      const day = parseInt(parts.find(p => p.type === 'day').value, 10);
+      const year = parseInt(parts.find(p => p.type === 'year').value, 10);
+      if(month === 5){
+        mordadDays.push({ jDay: day, jYear: year, date: d, gregWeekday: d.getDay() });
+      }
+    }
+
+    mordadDays.sort((a, b) => a.jDay - b.jDay);
+
+    if(mordadDays.length === 0){
+      calHeader.textContent = 'مرداد';
+      return;
+    }
+
+    calHeader.textContent = `مرداد ${toPersianDigits(mordadDays[0].jYear)}`;
+
+    // weekday header row (Sat..Fri)
+    WEEKDAYS_FA.forEach(wd => {
+      const el = document.createElement('div');
+      el.className = 'cal-wd';
+      el.textContent = wd[0]; // just first letter to keep it compact
+      calGrid.appendChild(el);
+    });
+
+    // leading empty cells so day 1 lands on the correct weekday column
+    const firstPersianCol = (mordadDays[0].gregWeekday + 1) % 7; // 0=Sat
+    for(let i = 0; i < firstPersianCol; i++){
+      const empty = document.createElement('div');
+      empty.className = 'cal-day empty';
+      calGrid.appendChild(empty);
+    }
+
+    const todayStr = today.toDateString();
+
+    mordadDays.forEach(info => {
+      const el = document.createElement('div');
+      el.className = 'cal-day';
+      el.textContent = toPersianDigits(info.jDay);
+      if(info.date.toDateString() === todayStr) el.classList.add('today');
+
+      el.addEventListener('click', () => {
+        document.querySelectorAll('.cal-day.selected').forEach(x => x.classList.remove('selected'));
+        el.classList.add('selected');
+        const wd = WEEKDAYS_FA[(info.gregWeekday + 1) % 7];
+        state.day = `${wd} ${toPersianDigits(info.jDay)} مرداد`;
+        updateContinueBtn1();
+      });
+
+      calGrid.appendChild(el);
+    });
+  }
+
+  function buildTimeSlots(){
+    const slots = ['۶ شب', '۷ شب', '۸ شب', '۹ شب', '۱۰ شب', '۱۱ شب', '۱۲ شب'];
+    slots.forEach(label => {
+      const btn = document.createElement('button');
+      btn.className = 'time-btn';
+      btn.textContent = label;
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.time-btn.selected').forEach(x => x.classList.remove('selected'));
+        btn.classList.add('selected');
+        state.time = label;
+        updateContinueBtn1();
+      });
+      timeGrid.appendChild(btn);
+    });
+  }
+
+  function updateContinueBtn1(){
+    continueBtn1.disabled = !(state.day && state.time);
+  }
+
+  function goToDetails(){
+    yesConfirmEl.classList.add('hidden');
+    detailsEl.classList.remove('hidden');
+  }
+
+  function goToActivity(){
+    detailsEl.classList.add('hidden');
+    activityEl.classList.remove('hidden');
+  }
+
+  function goToFood(){
+    state.notes = notesBox.value.trim();
+    state.cityPref = cityBox.value.trim();
+    notesEl.classList.add('hidden');
+    foodEl.classList.remove('hidden');
+  }
+
+  /* ===================== Icon builder (colorful badges) ===================== */
+  function buildIconGrid(container, items, onPick){
+    items.forEach(item => {
+      const el = document.createElement('div');
+      el.className = 'icon-card';
+      el.innerHTML = `
+        <div class="icon-badge" style="background:${item.tint}">
+          <svg viewBox="0 0 24 24" style="stroke:${item.color}">${item.icon}</svg>
+        </div>
+        <span>${item.key}</span>`;
+      el.addEventListener('click', () => {
+        container.querySelectorAll('.icon-card.selected').forEach(x => x.classList.remove('selected'));
+        el.classList.add('selected');
+        onPick(item.key);
+      });
+      container.appendChild(el);
+    });
+  }
+
+  const activities = [
+    { key: 'کافه', color: '#8B5E3C', tint: '#F4E3D3',
+      icon: `<path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8Z"/><path d="M17 9h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3c0 1-1 1-1 2s1 1 1 2M12 3c0 1-1 1-1 2s1 1 1 2"/>` },
+    { key: 'بازی', color: '#7C5CFC', tint: '#EDE7FF',
+      icon: `<rect x="2" y="8" width="20" height="10" rx="5"/><path d="M7 11v4M5 13h4"/><circle cx="16" cy="11.5" r="1"/><circle cx="18.5" cy="14" r="1"/>` },
+    { key: 'رستوران', color: '#FF7A45', tint: '#FFEDE3',
+      icon: `<path d="M6 2v8M4 2v5a2 2 0 0 0 4 0V2M6 10v12M18 2c-2 0-3 2-3 5s1 4 3 4v11"/>` },
+    { key: 'مال رفتن', color: '#FF4FA3', tint: '#FFE1F0',
+      icon: `<path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>` },
+    { key: 'سینما', color: '#4A55A2', tint: '#E6E8F7',
+      icon: `<path d="M3 9h18v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9Z"/><path d="M3 9 4 4h4l-2 5M9 9l2-5h4l-2 5M15 9l2-5h3l-1 5"/>` },
+    { key: 'ورزش', color: '#2ECC71', tint: '#E3F9EC',
+      icon: `<path d="M4 9v6M2 10v4M20 9v6M22 10v4M7 12h10"/><rect x="5" y="8" width="3" height="8" rx="1"/><rect x="16" y="8" width="3" height="8" rx="1"/>` },
+  ];
+
+  const foods = [
+    { key: 'ایرانی', color: '#D35400', tint: '#FBE4D2',
+      icon: `<path d="M4 20 20 4"/><rect x="7" y="7" width="4" height="4" rx="1"/><rect x="13" y="13" width="4" height="4" rx="1"/>` },
+    { key: 'پیتزا', color: '#E74C3C', tint: '#FBE0DE',
+      icon: `<path d="M12 2 22 20H2Z"/><circle cx="12" cy="10" r="1"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/>` },
+    { key: 'سوخاری', color: '#F4A700', tint: '#FDF1D2',
+      icon: `<path d="M15 3c3 0 5 2 5 5 0 4-4 6-7 9-2 2-4 2-5 1-1-1-1-3 1-5 3-3 5-7 6-10Z"/><circle cx="7" cy="17" r="2"/>` },
+    { key: 'ساندویچ', color: '#C0824C', tint: '#F6E7D6',
+      icon: `<path d="M3 12h18M4 12c0-3 4-5 8-5s8 2 8 5M4 12c0 2 2 3 3 3h10c1 0 3-1 3-3"/>` },
+    { key: 'آبمیوه بستنی', color: '#FF5C8A', tint: '#FFE2EC',
+      icon: `<path d="M8 8h8l-1 12H9L8 8Z"/><path d="M9 8 8 5h8l-1 3"/><path d="M13 5V2"/>` },
+  ];
+
+  /* ===================== Final ===================== */
+  function finishFlow(){
+    state.foodNotes = foodNotesBox.value.trim();
+    foodNotesEl.classList.add('hidden');
+    finalEl.classList.remove('hidden');
+
+    summaryBox.innerHTML = `
+      <div>📅 <b>روز:</b> ${state.day}</div>
+      <div>🕕 <b>ساعت:</b> ${state.time}</div>
+      <div>✨ <b>تفریح:</b> ${state.activity}</div>
+      <div>🍽️ <b>غذا:</b> ${state.food}</div>
+    `;
+
+    burstConfetti();
+
+    let msg = `جزئیات کامل شد ✅\nروز: ${state.day}\nساعت: ${state.time}\nتفریح: ${state.activity}`;
+    if(state.notes) msg += `\nتوضیحات: ${state.notes}`;
+    if(state.cityPref) msg += `\nسمت شهر: ${state.cityPref}`;
+    msg += `\nغذا: ${state.food}`;
+    if(state.foodNotes) msg += `\nتوضیح غذا: ${state.foodNotes}`;
+
+    sendTelegramMessage(msg);
+  }
+
+  /* ===================== Confetti ===================== */
   function burstConfetti(){
     const colors = ['#E8527A', '#FFC24B', '#5FD9C0', '#C43A61', '#fff'];
     for(let i = 0; i < 60; i++){
@@ -503,7 +857,7 @@
     }
   }
 
-  // background floating hearts
+  /* ===================== Background hearts ===================== */
   const bgHearts = document.getElementById('bgHearts');
   const heartChars = ['💗','💕','💞','💓'];
   for(let i = 0; i < 14; i++){
@@ -515,6 +869,24 @@
     s.style.fontSize = (16 + Math.random() * 18) + 'px';
     bgHearts.appendChild(s);
   }
+
+  /* ===================== Init ===================== */
+  buildCalendar();
+  buildTimeSlots();
+  buildIconGrid(activityGrid, activities, (key) => {
+    state.activity = key;
+    setTimeout(() => {
+      activityEl.classList.add('hidden');
+      notesEl.classList.remove('hidden');
+    }, 350);
+  });
+  buildIconGrid(foodGrid, foods, (key) => {
+    state.food = key;
+    setTimeout(() => {
+      foodEl.classList.add('hidden');
+      foodNotesEl.classList.remove('hidden');
+    }, 350);
+  });
 </script>
 </body>
 </html>

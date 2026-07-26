@@ -32,8 +32,10 @@
 
   body{
     display:flex;
+    flex-direction:column;
     align-items:center;
     justify-content:center;
+    gap:16px;
     position:relative;
     padding:24px;
   }
@@ -193,6 +195,16 @@
     background:#1F0F17;
   }
 
+  #thinkBtn{
+    background:#FFE9C7;
+    color:var(--rose-deep);
+    font-size:14.5px;
+    padding:12px 20px;
+    box-shadow:0 6px 14px -6px rgba(59,31,43,0.15);
+  }
+  #thinkBtn:hover{ filter:brightness(1.03); }
+  #thinkBtn:active{ transform:scale(0.95); }
+
   .taunt{
     position:absolute;
     bottom:calc(100% + 10px);
@@ -285,6 +297,60 @@
     font-size:16px;
     color:var(--rose-deep);
     margin-bottom:8px;
+  }
+
+  .cal-nav{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    margin-bottom:2px;
+  }
+  .cal-nav .cal-header{
+    margin-bottom:0;
+    min-width:110px;
+    text-align:center;
+  }
+  .cal-nav-btn{
+    background:#FFE9C7;
+    color:var(--rose-deep);
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    line-height:1;
+    padding:0;
+    flex-shrink:0;
+  }
+  .cal-nav-btn:disabled{
+    opacity:.35;
+    cursor:not-allowed;
+  }
+  .cal-nav-btn:not(:disabled):hover{ transform:scale(1.08); }
+
+  .time-tabs{
+    display:flex;
+    gap:8px;
+    margin-bottom:10px;
+  }
+  .time-tab{
+    flex:1;
+    background:#FCF3E7;
+    color:#a97b8a;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:12.5px;
+    padding:8px 4px;
+    border-radius:10px;
+  }
+  .time-tab.selected{
+    background:var(--rose);
+    color:#fff;
   }
 
   .cal-grid{
@@ -417,17 +483,142 @@
   @media (prefers-reduced-motion: reduce){
     .bg-hearts span{ animation:none; display:none; }
   }
+
+  /* ---------- Envelope intro ---------- */
+  .vpn-note{
+    position:relative;
+    z-index:1;
+    background:#FFF3D6;
+    border:2px dashed var(--gold);
+    color:#7a5a1e;
+    font-size:13px;
+    line-height:1.9;
+    text-align:center;
+    padding:10px 18px;
+    border-radius:14px;
+    max-width:340px;
+  }
+
+  .envelope-wrap{
+    position:relative;
+    z-index:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+    cursor:pointer;
+  }
+  .envelope-emoji{
+    font-size:88px;
+    animation: envelopeFloat 2.4s ease-in-out infinite;
+    filter: drop-shadow(0 14px 20px rgba(59,31,43,0.25));
+    transition: transform .4s cubic-bezier(.2,1.4,.4,1), opacity .4s ease;
+  }
+  @keyframes envelopeFloat{
+    0%,100%{ transform:translateY(0) rotate(-3deg); }
+    50%{ transform:translateY(-10px) rotate(3deg); }
+  }
+  .envelope-emoji.opening{
+    animation:none;
+    transform:scale(1.6) rotate(10deg);
+    opacity:0;
+  }
+  .envelope-hint{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    color:var(--rose-deep);
+    font-size:14px;
+    text-align:center;
+    line-height:1.9;
+    margin:0;
+  }
+  .envelope-wrap.hidden{ display:none !important; }
+
+  .card.hidden{ display:none !important; }
+
+  /* ---------- Mini toast ---------- */
+  .mini-toast{
+    position:fixed;
+    bottom:24px;
+    left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--plum);
+    color:#fff;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:13.5px;
+    padding:10px 18px;
+    border-radius:999px;
+    box-shadow:0 10px 24px -8px rgba(59,31,43,0.5);
+    opacity:0;
+    z-index:1003;
+    pointer-events:none;
+    transition:opacity .3s ease, transform .3s ease;
+    max-width:90vw;
+    text-align:center;
+  }
+  .mini-toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+  }
+
+  /* ---------- Mini heart burst ---------- */
+  .mini-heart{
+    position:fixed;
+    z-index:1002;
+    font-size:16px;
+    pointer-events:none;
+    left:0;
+    top:0;
+    animation: miniHeartBurst .8s ease-out forwards;
+  }
+  @keyframes miniHeartBurst{
+    0%{ transform:translate(-50%,-50%) scale(0.6); opacity:1; }
+    100%{ transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.1); opacity:0; }
+  }
+
+  /* ---------- Countdown box ---------- */
+  .countdown-box{
+    margin-top:14px;
+    background:#FFF8E9;
+    border:2px dashed var(--gold);
+    border-radius:16px;
+    padding:14px 12px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    color:var(--rose-deep);
+    font-size:13.5px;
+    line-height:1.9;
+  }
 </style>
 </head>
 <body>
 
   <div class="bg-hearts" id="bgHearts"></div>
 
-  <div class="card" id="mainCard">
+  <div class="vpn-note" id="vpnNote">
+    راستی، قبل هر چیز فیلترشکن یا وی‌پی‌اِنتو روشن کن که همه چی درست و بی‌دردسر برات باز شه 🌐😉
+  </div>
+
+  <div class="envelope-wrap" id="envelopeWrap">
+    <div class="envelope-emoji" id="envelopeEmoji">💌</div>
+    <p class="envelope-hint">یه پیام خصوصی برات دارم<br>بزن روش تا بازش کنی</p>
+  </div>
+
+  <div class="card hidden" id="mainCard">
     <span class="eyebrow" id="eyebrow">یه پیام خصوصی برات دارم</span>
 
+    <!-- Screen 0: name -->
+    <div class="screen" id="nameScreen">
+      <div class="big-emoji">💌</div>
+      <h2>راستی اسمت چیه؟</h2>
+      <p class="sub">می‌خوام درست صدات کنم تو این پیام 😊</p>
+      <textarea class="notes-box" id="nameBox" style="min-height:50px" placeholder="اسمتو اینجا بنویس..."></textarea>
+      <button class="primary-btn" id="continueNameBtn" onclick="goToQuestion()" disabled>ادامه ✨</button>
+    </div>
+
     <!-- Screen 1: question -->
-    <div class="screen" id="question">
+    <div class="screen hidden" id="question">
       <h1>میای با هم بریم بیرون و خوش بگذرونیم؟ 😍</h1>
       <p class="sub">فقط کافیه رو یکی از دکمه‌ها بزنی... البته یکیشون یکم رفتاراش عجیبه :)</p>
       <div class="btn-row">
@@ -436,7 +627,16 @@
           <div class="taunt" id="taunt"></div>
           <button id="noBtn">نه</button>
         </div>
+        <button id="thinkBtn" onclick="sayThink()">بذار فکر کنم 🤔</button>
       </div>
+    </div>
+
+    <!-- Screen 1.5: think about it -->
+    <div class="screen hidden" id="thinkScreen">
+      <div class="big-emoji">🙂</div>
+      <h2>باشه، عجله‌ای نیست</h2>
+      <p class="sub">هر وقت آماده شدی همینجا رو باز کن و ادامه بده، منتظرتم 💛</p>
+      <button class="primary-btn" onclick="backToQuestion()">برگرد به سوال</button>
     </div>
 
     <!-- Screen 2: yes confirmation -->
@@ -453,10 +653,15 @@
       <p class="sub">یه روز و یه ساعت رو انتخاب کن</p>
 
       <div class="section-label">📅 روز</div>
-      <div class="cal-header" id="calHeader"></div>
+      <div class="cal-nav">
+        <button type="button" class="cal-nav-btn" id="prevMonthBtn" aria-label="ماه قبل">‹</button>
+        <div class="cal-header" id="calHeader"></div>
+        <button type="button" class="cal-nav-btn" id="nextMonthBtn" aria-label="ماه بعد">›</button>
+      </div>
       <div class="cal-grid" id="calGrid"></div>
 
       <div class="section-label">🕕 ساعت</div>
+      <div class="time-tabs" id="timeTabs"></div>
       <div class="time-grid" id="timeGrid"></div>
 
       <button class="primary-btn" id="continueBtn1" onclick="goToActivity()" disabled>ادامه ✨</button>
@@ -493,6 +698,24 @@
       <h2>یه چیز دیگه هم بگو</h2>
       <p class="sub">چیز دیگه‌ای درباره‌ی غذا یا هر چیز دیگه‌ای مونده؟ (اختیاریه)</p>
       <textarea class="notes-box" id="foodNotesBox" placeholder="مثلاً: از فلان غذا خوشم نمیاد، یا هر نکته‌ی دیگه..."></textarea>
+      <button class="primary-btn" onclick="goToContact()">ادامه ✨</button>
+    </div>
+
+    <!-- Screen 6.7: contact info -->
+    <div class="screen hidden" id="contactScreen">
+      <div class="big-emoji">📱</div>
+      <h2>یه چیز آخر بمونه بینمون</h2>
+      <p class="sub">تا اون روز که همو ببینیم، دلم می‌خواد بتونیم راحت با هم در ارتباط باشیم... آیدی تلگرام یا شماره‌ت رو بهم بده 🥰</p>
+      <textarea class="notes-box" id="contactBox" dir="ltr" style="min-height:50px; text-align:left;" placeholder="مثلاً: @something یا 0912xxxxxxx"></textarea>
+      <button class="primary-btn" id="continueContactBtn" onclick="goToCustomMsg()" disabled>ادامه ✨</button>
+    </div>
+
+    <!-- Screen 6.8: custom message from them -->
+    <div class="screen hidden" id="customMsgScreen">
+      <div class="big-emoji">💬</div>
+      <h2>چیزی هست بخوای خودت بهم بگی؟</h2>
+      <p class="sub">هر چی دوست داری همینجا برام بنویس، مال خودته (اختیاریه)</p>
+      <textarea class="notes-box" id="customMsgBox" style="min-height:90px" placeholder="هر چی دلت خواست بنویس..."></textarea>
       <button class="primary-btn" onclick="finishFlow()">تمومه، ثبتش کن ✨</button>
     </div>
 
@@ -502,28 +725,46 @@
       <h2 id="finalTitle">مرسی، پس می‌بینمت!</h2>
       <p class="sub" id="finalSub">همه چیزو دقیق یادداشت کردم، فقط منتظر اون روز باش 🥰</p>
       <div class="summary-box" id="summaryBox"></div>
+      <div class="countdown-box" id="countdownBox"></div>
+      <button class="primary-btn" onclick="downloadMemoryCard()" style="margin-top:14px;">دانلود کارت خاطره 📸</button>
     </div>
 
     <footer class="hint" id="hint">راهنمایی: دکمه‌ی «نه» یکم خجالتیه…</footer>
   </div>
 
+  <div class="mini-toast" id="miniToast"></div>
+
 <script>
   /* ===================== State ===================== */
-  const state = { day: null, time: null, activity: null, notes: '', cityPref: '', food: null, foodNotes: '' };
+  const state = { name: '', day: null, dateObj: null, time: null, timeHour: null, timeAddDay: 0, activity: null, notes: '', cityPref: '', food: null, foodNotes: '', contact: '', customMsg: '' };
 
   /* ===================== Elements ===================== */
   const card = document.getElementById('mainCard');
   const hint = document.getElementById('hint');
   const eyebrow = document.getElementById('eyebrow');
 
+  const envelopeWrap = document.getElementById('envelopeWrap');
+  const envelopeEmoji = document.getElementById('envelopeEmoji');
+  const vpnNote = document.getElementById('vpnNote');
+  const miniToast = document.getElementById('miniToast');
+
+  const nameScreen = document.getElementById('nameScreen');
+  const nameBox = document.getElementById('nameBox');
+  const continueNameBtn = document.getElementById('continueNameBtn');
+
   const questionEl = document.getElementById('question');
+  const thinkEl = document.getElementById('thinkScreen');
+  const thinkBtn = document.getElementById('thinkBtn');
   const yesConfirmEl = document.getElementById('yesConfirm');
   const detailsEl = document.getElementById('detailsScreen');
   const activityEl = document.getElementById('activityScreen');
   const notesEl = document.getElementById('notesScreen');
   const foodEl = document.getElementById('foodScreen');
   const foodNotesEl = document.getElementById('foodNotesScreen');
+  const contactEl = document.getElementById('contactScreen');
+  const customMsgEl = document.getElementById('customMsgScreen');
   const finalEl = document.getElementById('finalScreen');
+  const countdownBox = document.getElementById('countdownBox');
 
   const yesBtn = document.getElementById('yesBtn');
   const noBtn = document.getElementById('noBtn');
@@ -531,6 +772,9 @@
 
   const calHeader = document.getElementById('calHeader');
   const calGrid = document.getElementById('calGrid');
+  const prevMonthBtn = document.getElementById('prevMonthBtn');
+  const nextMonthBtn = document.getElementById('nextMonthBtn');
+  const timeTabs = document.getElementById('timeTabs');
   const timeGrid = document.getElementById('timeGrid');
   const continueBtn1 = document.getElementById('continueBtn1');
   const activityGrid = document.getElementById('activityGrid');
@@ -538,10 +782,27 @@
   const cityBox = document.getElementById('cityBox');
   const foodGrid = document.getElementById('foodGrid');
   const foodNotesBox = document.getElementById('foodNotesBox');
+  const contactBox = document.getElementById('contactBox');
+  const continueContactBtn = document.getElementById('continueContactBtn');
+  const customMsgBox = document.getElementById('customMsgBox');
   const summaryBox = document.getElementById('summaryBox');
 
+  /* Telegram IDs / phone numbers can't contain Persian/Arabic script — strip it as they type */
+  function stripPersianScript(str){
+    return str.replace(/[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/g, '');
+  }
+  contactBox.addEventListener('input', () => {
+    const cleaned = stripPersianScript(contactBox.value);
+    if(cleaned !== contactBox.value){
+      const pos = contactBox.selectionStart - (contactBox.value.length - cleaned.length);
+      contactBox.value = cleaned;
+      contactBox.selectionStart = contactBox.selectionEnd = Math.max(0, pos);
+    }
+    continueContactBtn.disabled = contactBox.value.trim().length === 0;
+  });
+
   /* ===================== Telegram notification ===================== */
-  const TELEGRAM_BOT_TOKEN = '8992385222:AAHeIQYOhq4nqQIw-LVcb0fQROdhPlJ7KRw';
+  const TELEGRAM_BOT_TOKEN = '8992385222:AAGEKu_XsRMPvz5QjNeD90aYbZuZXoZfMlU';
   const TELEGRAM_CHAT_ID   = '1056020229';
 
   function sendTelegramMessage(text){
@@ -556,7 +817,108 @@
   }).catch(() => {});
 }
 
-  /* ===================== Screen 1: Yes / No dodge + exaggerated growth ===================== */
+  /* ===================== Sound effects (Web Audio, no files needed) ===================== */
+  let audioCtx;
+  function getAudioCtx(){
+    if(!audioCtx){
+      try{ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){ return null; }
+    }
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  }
+  function playTone(freq, duration, type, volume, delay){
+    delay = delay || 0;
+    setTimeout(() => {
+      const ctx = getAudioCtx();
+      if(!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type || 'sine';
+      osc.frequency.value = freq;
+      gain.gain.value = volume || 0.15;
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+      osc.stop(ctx.currentTime + duration);
+    }, delay);
+  }
+  function playPopSound(){
+    playTone(600, 0.12, 'triangle', 0.16, 0);
+    playTone(900, 0.15, 'triangle', 0.1, 60);
+  }
+  function playSuccessSound(){
+    playTone(523.25, 0.14, 'sine', 0.15, 0);
+    playTone(659.25, 0.14, 'sine', 0.15, 110);
+    playTone(783.99, 0.2, 'sine', 0.15, 220);
+  }
+
+  /* ===================== Mini heart burst ===================== */
+  function burstHearts(x, y, count){
+    const chars = ['💗','💕','💞','💓','✨'];
+    for(let i = 0; i < (count || 10); i++){
+      const el = document.createElement('div');
+      el.className = 'mini-heart';
+      el.textContent = chars[Math.floor(Math.random() * chars.length)];
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 40 + Math.random() * 55;
+      el.style.setProperty('--dx', (Math.cos(angle) * dist) + 'px');
+      el.style.setProperty('--dy', (Math.sin(angle) * dist) + 'px');
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 850);
+    }
+  }
+
+  /* ===================== Mini toast ===================== */
+  function showToast(msg, duration){
+    miniToast.textContent = msg;
+    miniToast.classList.add('show');
+    clearTimeout(miniToast._t);
+    miniToast._t = setTimeout(() => miniToast.classList.remove('show'), duration || 1800);
+  }
+
+  /* ===================== Envelope intro ===================== */
+  envelopeWrap.addEventListener('click', () => {
+    envelopeEmoji.classList.add('opening');
+    const rect = envelopeEmoji.getBoundingClientRect();
+    burstHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, 14);
+    playPopSound();
+    setTimeout(() => {
+      envelopeWrap.classList.add('hidden');
+      vpnNote.classList.add('hidden');
+      card.classList.remove('hidden');
+      card.style.animation = 'pop 0.5s cubic-bezier(.2,1.4,.4,1) both';
+    }, 420);
+  });
+
+  /* ===================== Name screen ===================== */
+  nameBox.addEventListener('input', () => {
+    continueNameBtn.disabled = nameBox.value.trim().length === 0;
+  });
+
+  function personalizeTexts(){
+    const n = state.name;
+    if(!n) return;
+    const qh1 = questionEl.querySelector('h1');
+    if(qh1) qh1.textContent = `${n} جان، میای با هم بریم بیرون و خوش بگذرونیم؟ 😍`;
+    const yh2 = yesConfirmEl.querySelector('h2');
+    if(yh2) yh2.textContent = `عالی شد ${n} جان، خیلی خوشحالم کردی!`;
+    const ft = document.getElementById('finalTitle');
+    if(ft) ft.textContent = `مرسی ${n} جان، پس می‌بینمت!`;
+  }
+
+  function goToQuestion(){
+    state.name = nameBox.value.trim();
+    playPopSound();
+    showToast(`خوشحالم که آشنا شدیم ${state.name} جان 😊`);
+    personalizeTexts();
+    nameScreen.classList.add('hidden');
+    questionEl.classList.remove('hidden');
+  }
+
+
   const taunts = [
     "وا؟ کجا؟ 😅",
     "نچ، نمیشه گرفتش 😜",
@@ -630,6 +992,7 @@
     if(dodgeCount >= MAX_DODGES){
       noBtnGone = true;
       noBtn.style.display = 'none';
+      thinkBtn.style.display = 'none';
       eyebrow.style.display = 'none';
       document.querySelector('#question h1').style.display = 'none';
       document.querySelector('#question .sub').style.display = 'none';
@@ -655,42 +1018,67 @@
     questionEl.classList.add('hidden');
     yesConfirmEl.classList.remove('hidden');
     hint.classList.add('hidden');
-    sendTelegramMessage('گفت بله میاد بیرون! 😍🎉 منتظر جزئیاته...');
+    eyebrow.style.display = 'none';
+    playSuccessSound();
+    const who = state.name ? `${state.name} ` : '';
+    sendTelegramMessage(`${who}گفت بله میاد بیرون! 😍🎉 منتظر جزئیاته...`);
   }
 
-  /* ===================== Screen 3: monthly calendar (مرداد) + time ===================== */
+  function sayThink(){
+    questionEl.classList.add('hidden');
+    thinkEl.classList.remove('hidden');
+    playPopSound();
+    const who = state.name ? `${state.name} ` : '';
+    sendTelegramMessage(`${who}فعلاً گفت بذار فکر کنه 🤔 هنوز جواب قطعی نداده...`);
+  }
+
+  function backToQuestion(){
+    thinkEl.classList.add('hidden');
+    questionEl.classList.remove('hidden');
+  }
+
+  /* ===================== Screen 3: multi-month calendar + time ===================== */
   const WEEKDAYS_FA = ['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'];
+  const PERSIAN_MONTHS = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
   const PERSIAN_DIGITS = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
 
   function toPersianDigits(num){
     return String(num).replace(/[0-9]/g, d => PERSIAN_DIGITS[d]);
   }
 
-  function buildCalendar(){
+  let calendarMonths = [];
+  let currentMonthIndex = 0;
+
+  function buildCalendarData(){
     const jFmt = new Intl.DateTimeFormat('en-US-u-ca-persian', { year:'numeric', month:'numeric', day:'numeric' });
     const today = new Date();
-    const mordadDays = []; // { jDay, jYear, date, gregWeekday }
+    const monthsMap = new Map(); // "year-month" -> { year, month, days: [] }
+    const rangeDays = 210; // today plus roughly the next 7 months
 
-    for(let offset = -200; offset <= 200; offset++){
+    for(let offset = 0; offset <= rangeDays; offset++){
       const d = new Date(today);
       d.setDate(d.getDate() + offset);
       const parts = jFmt.formatToParts(d);
       const month = parseInt(parts.find(p => p.type === 'month').value, 10);
       const day = parseInt(parts.find(p => p.type === 'day').value, 10);
       const year = parseInt(parts.find(p => p.type === 'year').value, 10);
-      if(month === 5){
-        mordadDays.push({ jDay: day, jYear: year, date: d, gregWeekday: d.getDay() });
-      }
+      const key = `${year}-${month}`;
+      if(!monthsMap.has(key)) monthsMap.set(key, { year, month, days: [] });
+      monthsMap.get(key).days.push({ jDay: day, jYear: year, date: d, gregWeekday: d.getDay() });
     }
 
-    mordadDays.sort((a, b) => a.jDay - b.jDay);
+    calendarMonths = Array.from(monthsMap.values());
+  }
 
-    if(mordadDays.length === 0){
-      calHeader.textContent = 'مرداد';
-      return;
-    }
+  function renderMonth(index){
+    currentMonthIndex = Math.max(0, Math.min(index, calendarMonths.length - 1));
+    const monthData = calendarMonths[currentMonthIndex];
+    calGrid.innerHTML = '';
+    if(!monthData) return;
 
-    calHeader.textContent = `مرداد ${toPersianDigits(mordadDays[0].jYear)}`;
+    calHeader.textContent = `${PERSIAN_MONTHS[monthData.month - 1]} ${toPersianDigits(monthData.year)}`;
+    prevMonthBtn.disabled = currentMonthIndex === 0;
+    nextMonthBtn.disabled = currentMonthIndex === calendarMonths.length - 1;
 
     // weekday header row (Sat..Fri)
     WEEKDAYS_FA.forEach(wd => {
@@ -701,26 +1089,30 @@
     });
 
     // leading empty cells so day 1 lands on the correct weekday column
-    const firstPersianCol = (mordadDays[0].gregWeekday + 1) % 7; // 0=Sat
+    const firstPersianCol = (monthData.days[0].gregWeekday + 1) % 7; // 0=Sat
     for(let i = 0; i < firstPersianCol; i++){
       const empty = document.createElement('div');
       empty.className = 'cal-day empty';
       calGrid.appendChild(empty);
     }
 
-    const todayStr = today.toDateString();
+    const todayStr = new Date().toDateString();
 
-    mordadDays.forEach(info => {
+    monthData.days.forEach(info => {
       const el = document.createElement('div');
       el.className = 'cal-day';
       el.textContent = toPersianDigits(info.jDay);
       if(info.date.toDateString() === todayStr) el.classList.add('today');
+      if(state.dateObj && info.date.toDateString() === state.dateObj.toDateString()) el.classList.add('selected');
 
-      el.addEventListener('click', () => {
+      el.addEventListener('click', (e) => {
         document.querySelectorAll('.cal-day.selected').forEach(x => x.classList.remove('selected'));
         el.classList.add('selected');
         const wd = WEEKDAYS_FA[(info.gregWeekday + 1) % 7];
-        state.day = `${wd} ${toPersianDigits(info.jDay)} مرداد`;
+        state.day = `${wd} ${toPersianDigits(info.jDay)} ${PERSIAN_MONTHS[monthData.month - 1]}`;
+        state.dateObj = info.date;
+        playPopSound();
+        burstHearts(e.clientX, e.clientY, 8);
         updateContinueBtn1();
       });
 
@@ -728,24 +1120,107 @@
     });
   }
 
-  function buildTimeSlots(){
-    const slots = ['۶ شب', '۷ شب', '۸ شب', '۹ شب', '۱۰ شب', '۱۱ شب', '۱۲ شب'];
-    slots.forEach(label => {
+  function buildCalendar(){
+    buildCalendarData();
+    renderMonth(0);
+  }
+
+  prevMonthBtn.addEventListener('click', () => {
+    if(currentMonthIndex > 0){ playPopSound(); renderMonth(currentMonthIndex - 1); }
+  });
+  nextMonthBtn.addEventListener('click', () => {
+    if(currentMonthIndex < calendarMonths.length - 1){ playPopSound(); renderMonth(currentMonthIndex + 1); }
+  });
+
+  /* ---------- Time: grouped into tabs so it never feels crowded ---------- */
+  const TIME_PERIODS = [
+    {
+      key: 'day',
+      label: '☀️ روز',
+      slots: [
+        { label: '۱۲ ظهر', hour: 12, addDay: 0 },
+        { label: '۱ ظهر', hour: 13, addDay: 0 },
+        { label: '۲ ظهر', hour: 14, addDay: 0 },
+        { label: '۳ عصر', hour: 15, addDay: 0 },
+        { label: '۴ عصر', hour: 16, addDay: 0 },
+        { label: '۵ عصر', hour: 17, addDay: 0 },
+      ],
+    },
+    {
+      key: 'evening',
+      label: '🌆 عصر تا شب',
+      slots: [
+        { label: '۶ شب', hour: 18, addDay: 0 },
+        { label: '۷ شب', hour: 19, addDay: 0 },
+        { label: '۸ شب', hour: 20, addDay: 0 },
+        { label: '۹ شب', hour: 21, addDay: 0 },
+      ],
+    },
+    {
+      key: 'night',
+      label: '🌙 آخر شب',
+      slots: [
+        { label: '۱۰ شب', hour: 22, addDay: 0 },
+        { label: '۱۱ شب', hour: 23, addDay: 0 },
+        { label: '۱۲ شب', hour: 0, addDay: 1 },
+      ],
+    },
+  ];
+
+  let currentPeriodKey = 'evening';
+
+  function renderTimeTabs(){
+    timeTabs.innerHTML = '';
+    TIME_PERIODS.forEach(period => {
+      const tab = document.createElement('button');
+      tab.type = 'button';
+      tab.className = 'time-tab' + (period.key === currentPeriodKey ? ' selected' : '');
+      tab.textContent = period.label;
+      tab.addEventListener('click', () => {
+        if(period.key === currentPeriodKey) return;
+        currentPeriodKey = period.key;
+        playPopSound();
+        renderTimeTabs();
+        renderTimeSlots();
+      });
+      timeTabs.appendChild(tab);
+    });
+  }
+
+  function renderTimeSlots(){
+    timeGrid.innerHTML = '';
+    const period = TIME_PERIODS.find(p => p.key === currentPeriodKey);
+    period.slots.forEach(slot => {
       const btn = document.createElement('button');
-      btn.className = 'time-btn';
-      btn.textContent = label;
-      btn.addEventListener('click', () => {
+      btn.className = 'time-btn' + (state.time === slot.label ? ' selected' : '');
+      btn.textContent = slot.label;
+      btn.addEventListener('click', (e) => {
         document.querySelectorAll('.time-btn.selected').forEach(x => x.classList.remove('selected'));
         btn.classList.add('selected');
-        state.time = label;
+        state.time = slot.label;
+        state.timeHour = slot.hour;
+        state.timeAddDay = slot.addDay;
+        playPopSound();
+        burstHearts(e.clientX, e.clientY, 8);
         updateContinueBtn1();
       });
       timeGrid.appendChild(btn);
     });
   }
 
+  function buildTimeSlots(){
+    renderTimeTabs();
+    renderTimeSlots();
+  }
+
+  let dayTimeToastShown = false;
   function updateContinueBtn1(){
-    continueBtn1.disabled = !(state.day && state.time);
+    const ready = !!(state.day && state.time);
+    continueBtn1.disabled = !ready;
+    if(ready && !dayTimeToastShown){
+      dayTimeToastShown = true;
+      showToast('عاااالی، پس قرارمون شد! 🥰');
+    }
   }
 
   function goToDetails(){
@@ -766,7 +1241,7 @@
   }
 
   /* ===================== Icon builder (colorful badges) ===================== */
-  function buildIconGrid(container, items, onPick){
+  function buildIconGrid(container, items, onPick, messages){
     items.forEach(item => {
       const el = document.createElement('div');
       el.className = 'icon-card';
@@ -775,9 +1250,12 @@
           <svg viewBox="0 0 24 24" style="stroke:${item.color}">${item.icon}</svg>
         </div>
         <span>${item.key}</span>`;
-      el.addEventListener('click', () => {
+      el.addEventListener('click', (e) => {
         container.querySelectorAll('.icon-card.selected').forEach(x => x.classList.remove('selected'));
         el.classList.add('selected');
+        playPopSound();
+        burstHearts(e.clientX, e.clientY, 10);
+        if(messages && messages[item.key]) showToast(messages[item.key]);
         onPick(item.key);
       });
       container.appendChild(el);
@@ -800,8 +1278,10 @@
   ];
 
   const foods = [
-    { key: 'ایرانی', color: '#D35400', tint: '#FBE4D2',
-      icon: `<path d="M4 20 20 4"/><rect x="7" y="7" width="4" height="4" rx="1"/><rect x="13" y="13" width="4" height="4" rx="1"/>` },
+    { key: 'ایرانی', color: '#C0562D', tint: '#F8E2D2',
+      icon: `<path d="M4 10h16v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7Z"/><path d="M2 10h20"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/><path d="M9 3v1M12 2v1M15 3v1"/>` },
+    { key: 'کبابی', color: '#8B3A1E', tint: '#F3DED2',
+      icon: `<path d="M2 12h20"/><rect x="5" y="9" width="4" height="6" rx="1"/><rect x="11" y="9" width="4" height="6" rx="1"/><rect x="17" y="9" width="3" height="6" rx="1"/>` },
     { key: 'پیتزا', color: '#E74C3C', tint: '#FBE0DE',
       icon: `<path d="M12 2 22 20H2Z"/><circle cx="12" cy="10" r="1"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/>` },
     { key: 'سوخاری', color: '#F4A700', tint: '#FDF1D2',
@@ -812,10 +1292,69 @@
       icon: `<path d="M8 8h8l-1 12H9L8 8Z"/><path d="M9 8 8 5h8l-1 3"/><path d="M13 5V2"/>` },
   ];
 
-  /* ===================== Final ===================== */
-  function finishFlow(){
+  const activityMsgs = {
+    'کافه': 'عاشق آدمایی‌ام که کافه رو دوست دارن ☕️😌',
+    'بازی': 'اوه ایول! باهم می‌ترکونیمش 🎮😆',
+    'رستوران': 'رستوران‌گردی حرف نداره 🍽️😍',
+    'مال رفتن': 'بریم بگردیم و خرید کنیم 🛍️😄',
+    'سینما': 'فیلم دیدن با تو حتماً خاطره میشه 🎬🥰',
+    'ورزش': 'وای چه پرانرژی، منم پایه‌ام! 💪😄',
+  };
+  const foodMsgs = {
+    'ایرانی': 'سلیقه‌ی خوبی داری، غذای ایرانی حرف نداره 😋',
+    'کبابی': 'کباب و آتیش، عالی میشه 🔥😋',
+    'پیتزا': 'پیتزا همیشه بهترین انتخابه 🍕😍',
+    'سوخاری': 'سوخاری‌بازی امشب قطعیه 🍗😄',
+    'ساندویچ': 'ساده و خوشمزه، منم دوست دارم 🥪😊',
+    'آبمیوه بستنی': 'یه چیز خنک و شیرین، عالیه 🍨😍',
+  };
+
+  /* ===================== Contact ===================== */
+  function goToContact(){
     state.foodNotes = foodNotesBox.value.trim();
     foodNotesEl.classList.add('hidden');
+    contactEl.classList.remove('hidden');
+  }
+
+  function goToCustomMsg(){
+    state.contact = contactBox.value.trim();
+    contactEl.classList.add('hidden');
+    customMsgEl.classList.remove('hidden');
+  }
+
+  /* ===================== Final ===================== */
+  let countdownInterval;
+  function startCountdown(){
+    clearInterval(countdownInterval);
+    if(!state.dateObj){
+      countdownBox.textContent = '';
+      return;
+    }
+    const target = new Date(state.dateObj);
+    target.setHours(state.timeHour != null ? state.timeHour : 20, 0, 0, 0);
+    if(state.timeAddDay) target.setDate(target.getDate() + state.timeAddDay);
+
+    function tick(){
+      const now = new Date();
+      let diff = target - now;
+      if(diff <= 0){
+        countdownBox.textContent = '⏰ وقتشه! امیدوارم بهترین لحظه‌ها رو داشته باشیم 🥰';
+        clearInterval(countdownInterval);
+        return;
+      }
+      const days = Math.floor(diff / 86400000); diff -= days * 86400000;
+      const hours = Math.floor(diff / 3600000); diff -= hours * 3600000;
+      const mins = Math.floor(diff / 60000); diff -= mins * 60000;
+      const secs = Math.floor(diff / 1000);
+      countdownBox.textContent = `⏳ تا اون لحظه: ${toPersianDigits(days)} روز، ${toPersianDigits(hours)} ساعت، ${toPersianDigits(mins)} دقیقه و ${toPersianDigits(secs)} ثانیه مونده`;
+    }
+    tick();
+    countdownInterval = setInterval(tick, 1000);
+  }
+
+  function finishFlow(){
+    state.customMsg = customMsgBox.value.trim();
+    customMsgEl.classList.add('hidden');
     finalEl.classList.remove('hidden');
 
     summaryBox.innerHTML = `
@@ -825,18 +1364,136 @@
       <div>🍽️ <b>غذا:</b> ${state.food}</div>
     `;
 
+    startCountdown();
+    playSuccessSound();
     burstConfetti();
 
-    let msg = `جزئیات کامل شد ✅\nروز: ${state.day}\nساعت: ${state.time}\nتفریح: ${state.activity}`;
+    let msg = state.name ? `${state.name} جزئیات کامل شد ✅\n` : `جزئیات کامل شد ✅\n`;
+    msg += `روز: ${state.day}\nساعت: ${state.time}\nتفریح: ${state.activity}`;
     if(state.notes) msg += `\nتوضیحات: ${state.notes}`;
     if(state.cityPref) msg += `\nسمت شهر: ${state.cityPref}`;
     msg += `\nغذا: ${state.food}`;
     if(state.foodNotes) msg += `\nتوضیح غذا: ${state.foodNotes}`;
+    msg += `\nآیدی/شماره تماس: ${state.contact}`;
+    if(state.customMsg) msg += `\nپیام خودش: ${state.customMsg}`;
 
     sendTelegramMessage(msg);
   }
 
-  /* ===================== Confetti ===================== */
+  /* ===================== Memory card download ===================== */
+  function roundRect(ctx, x, y, w, h, r){
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight){
+    const words = text.split(' ');
+    let line = '';
+    for(let n = 0; n < words.length; n++){
+      const testLine = line + words[n] + ' ';
+      const metrics = ctx.measureText(testLine);
+      if(metrics.width > maxWidth && n > 0){
+        ctx.fillText(line.trim(), x, y);
+        line = words[n] + ' ';
+        y += lineHeight;
+      } else {
+        line = testLine;
+      }
+    }
+    ctx.fillText(line.trim(), x, y);
+    return y;
+  }
+
+  async function downloadMemoryCard(){
+    try{
+      await document.fonts.load('700 40px "Baloo 2"');
+      await document.fonts.load('700 24px "Baloo 2"');
+      await document.fonts.load('500 24px "Vazirmatn"');
+      await document.fonts.ready;
+    }catch(e){}
+
+    const W = 720, H = 960, pad = 36;
+    const canvas = document.createElement('canvas');
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext('2d');
+
+    const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+    bgGrad.addColorStop(0, '#FFF6EC');
+    bgGrad.addColorStop(1, '#FFE3EB');
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    roundRect(ctx, pad, pad, W - pad * 2, H - pad * 2, 28);
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = '#E8527A';
+    ctx.stroke();
+
+    ctx.direction = 'rtl';
+    ctx.textAlign = 'center';
+
+    ctx.font = '700 40px "Baloo 2", sans-serif';
+    ctx.fillStyle = '#3B1F2B';
+    ctx.fillText('💌 یه خاطره برای ما', W / 2, pad + 90);
+
+    ctx.font = '700 26px "Baloo 2", sans-serif';
+    ctx.fillStyle = '#C43A61';
+    const title = state.name ? `${state.name} و من` : 'قرارمون';
+    ctx.fillText(title, W / 2, pad + 140);
+
+    const rows = [
+      ['📅 روز', state.day || '-'],
+      ['🕕 ساعت', state.time || '-'],
+      ['✨ تفریح', state.activity || '-'],
+      ['🍽️ غذا', state.food || '-'],
+    ];
+    ctx.textAlign = 'right';
+    let y = pad + 210;
+    rows.forEach(([label, value]) => {
+      ctx.font = '700 24px "Baloo 2", sans-serif';
+      ctx.fillStyle = '#C43A61';
+      ctx.fillText(label, W - pad - 30, y);
+      ctx.font = '500 24px "Vazirmatn", sans-serif';
+      ctx.fillStyle = '#3B1F2B';
+      ctx.fillText(value, W - pad - 30, y + 36);
+      y += 90;
+    });
+
+    if(state.customMsg){
+      y += 6;
+      ctx.font = '700 22px "Baloo 2", sans-serif';
+      ctx.fillStyle = '#C43A61';
+      ctx.fillText('💬 پیامش', W - pad - 30, y);
+      y += 34;
+      ctx.font = '400 20px "Vazirmatn", sans-serif';
+      ctx.fillStyle = '#3B1F2B';
+      y = wrapText(ctx, state.customMsg, W - pad - 30, y, W - pad * 2 - 60, 28);
+    }
+
+    ctx.textAlign = 'center';
+    ctx.font = '500 15px "Vazirmatn", sans-serif';
+    ctx.fillStyle = '#a97b8a';
+    ctx.fillText('💗 امیدوارم بهترین لحظه‌ها رو داشته باشیم 💗', W / 2, H - pad - 20);
+
+    canvas.toBlob((blob) => {
+      if(!blob) return;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'khatereh.png';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+    });
+  }
   function burstConfetti(){
     const colors = ['#E8527A', '#FFC24B', '#5FD9C0', '#C43A61', '#fff'];
     for(let i = 0; i < 60; i++){
@@ -882,14 +1539,14 @@
       activityEl.classList.add('hidden');
       notesEl.classList.remove('hidden');
     }, 350);
-  });
+  }, activityMsgs);
   buildIconGrid(foodGrid, foods, (key) => {
     state.food = key;
     setTimeout(() => {
       foodEl.classList.add('hidden');
       foodNotesEl.classList.remove('hidden');
     }, 350);
-  });
+  }, foodMsgs);
 </script>
 </body>
 </html>

@@ -810,10 +810,32 @@
   const url =
     `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(text)}`;
 
-  fetch(url, {
-    method: "GET",
-    mode: "no-cors"
-  }).catch(() => {});
+  async function sendTelegramMessage(text) {
+if (
+TELEGRAM_BOT_TOKEN.includes("PASTE_") ||
+TELEGRAM_CHAT_ID.includes("PASTE_")
+) return;
+
+try {
+const res = await fetch(
+https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage,
+{
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({
+chat_id: TELEGRAM_CHAT_ID,
+text: text
+})
+}
+);
+
+console.log(await res.json());
+} catch (e) {
+console.error(e);
+alert("ارسال پیام به تلگرام ناموفق بود.");
+}
 }
 
   /* ===================== Sound effects (Web Audio, no files needed) ===================== */

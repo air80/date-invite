@@ -705,9 +705,9 @@
     <div class="screen hidden" id="contactScreen">
       <div class="big-emoji">📱</div>
       <h2>یه چیز آخر بمونه بینمون</h2>
-      <p class="sub">تا اون روز که همو ببینیم، دلم می‌خواد بتونیم راحت با هم در ارتباط باشیم... آیدی تلگرام یا شماره‌ت رو بهم بده 🥰</p>
+      <p class="sub">اگه بذاریش، می‌تونیم راحت‌تر هماهنگ کنیم و تا اون روز هم در ارتباط باشیم؛ ولی کاملاً دست خودته و اجباری نیست 🥰</p>
       <textarea class="notes-box" id="contactBox" dir="ltr" style="min-height:50px; text-align:left;" placeholder="مثلاً: @something یا 0912xxxxxxx"></textarea>
-      <button class="primary-btn" id="continueContactBtn" onclick="goToCustomMsg()" disabled>ادامه ✨</button>
+      <button class="primary-btn" id="continueContactBtn" onclick="goToCustomMsg()">ادامه ✨</button>
     </div>
 
     <!-- Screen 6.8: custom message from them -->
@@ -798,7 +798,6 @@
       contactBox.value = cleaned;
       contactBox.selectionStart = contactBox.selectionEnd = Math.max(0, pos);
     }
-    continueContactBtn.disabled = contactBox.value.trim().length === 0;
   });
 
   /* ===================== Telegram notification ===================== */
@@ -1374,7 +1373,7 @@
     if(state.cityPref) msg += `\nسمت شهر: ${state.cityPref}`;
     msg += `\nغذا: ${state.food}`;
     if(state.foodNotes) msg += `\nتوضیح غذا: ${state.foodNotes}`;
-    msg += `\nآیدی/شماره تماس: ${state.contact}`;
+    if(state.contact) msg += `\nآیدی/شماره تماس: ${state.contact}`;
     if(state.customMsg) msg += `\nپیام خودش: ${state.customMsg}`;
 
     sendTelegramMessage(msg);

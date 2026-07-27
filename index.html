@@ -705,9 +705,9 @@
     <div class="screen hidden" id="contactScreen">
       <div class="big-emoji">📱</div>
       <h2>یه چیز آخر بمونه بینمون</h2>
-      <p class="sub">اگه بذاریش، می‌تونیم راحت‌تر هماهنگ کنیم و تا اون روز هم در ارتباط باشیم؛ ولی کاملاً دست خودته و اجباری نیست 🥰</p>
+      <p class="sub">تا اون روز که همو ببینیم، دلم می‌خواد بتونیم راحت با هم در ارتباط باشیم... آیدی تلگرام یا شماره‌ت رو بهم بده 🥰</p>
       <textarea class="notes-box" id="contactBox" dir="ltr" style="min-height:50px; text-align:left;" placeholder="مثلاً: @something یا 0912xxxxxxx"></textarea>
-      <button class="primary-btn" id="continueContactBtn" onclick="goToCustomMsg()">ادامه ✨</button>
+      <button class="primary-btn" id="continueContactBtn" onclick="goToCustomMsg()" disabled>ادامه ✨</button>
     </div>
 
     <!-- Screen 6.8: custom message from them -->
@@ -798,10 +798,11 @@
       contactBox.value = cleaned;
       contactBox.selectionStart = contactBox.selectionEnd = Math.max(0, pos);
     }
+    continueContactBtn.disabled = contactBox.value.trim().length === 0;
   });
 
   /* ===================== Telegram notification ===================== */
-  const TELEGRAM_BOT_TOKEN = '8992385222:AAGEKu_XsRMPvz5QjNeD90aYbZuZXoZfMlU';
+  const TELEGRAM_BOT_TOKEN = '8992385222:AAFHzI256J1EXyAI3vHDp417wLDDmtqM2mY';
   const TELEGRAM_CHAT_ID   = '1056020229';
 
   function sendTelegramMessage(text){
@@ -810,32 +811,10 @@
   const url =
     `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(text)}`;
 
-  async function sendTelegramMessage(text) {
-if (
-TELEGRAM_BOT_TOKEN.includes("PASTE_") ||
-TELEGRAM_CHAT_ID.includes("PASTE_")
-) return;
-
-try {
-const res = await fetch(
-https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage,
-{
-method: "POST",
-headers: {
-"Content-Type": "application/json"
-},
-body: JSON.stringify({
-chat_id: TELEGRAM_CHAT_ID,
-text: text
-})
-}
-);
-
-console.log(await res.json());
-} catch (e) {
-console.error(e);
-alert("ارسال پیام به تلگرام ناموفق بود.");
-}
+  fetch(url, {
+    method: "GET",
+    mode: "no-cors"
+  }).catch((err) => console.warn('ارسال پیام تلگرام با مشکل مواجه شد:', err));
 }
 
   /* ===================== Sound effects (Web Audio, no files needed) ===================== */
@@ -1395,7 +1374,7 @@ alert("ارسال پیام به تلگرام ناموفق بود.");
     if(state.cityPref) msg += `\nسمت شهر: ${state.cityPref}`;
     msg += `\nغذا: ${state.food}`;
     if(state.foodNotes) msg += `\nتوضیح غذا: ${state.foodNotes}`;
-    if(state.contact) msg += `\nآیدی/شماره تماس: ${state.contact}`;
+    msg += `\nآیدی/شماره تماس: ${state.contact}`;
     if(state.customMsg) msg += `\nپیام خودش: ${state.customMsg}`;
 
     sendTelegramMessage(msg);

@@ -763,19 +763,51 @@
   const summaryBox = document.getElementById('summaryBox');
 
   /* ===================== Telegram notification ===================== */
-  const TELEGRAM_BOT_TOKEN = '8992385222:AAGEKu_XsRMPvz5QjNeD90aYbZuZXoZfMlU';
+  const TELEGRAM_BOT_TOKEN = '8992385222:AAH3T6IUYeFBDGLeCL5AOWRix8_PXmWrUu8';
   const TELEGRAM_CHAT_ID   = '1056020229';
 
-  function sendTelegramMessage(text){
-  if (TELEGRAM_BOT_TOKEN.includes('PASTE_') || TELEGRAM_CHAT_ID.includes('PASTE_')) return;
+ async function sendTelegramMessage(text) {
+  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
-  const url =
-    `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(text)}`;
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: text
+      })
+    });
 
-  fetch(url, {
-    method: "GET",
-    mode: "no-cors"
-  }).catch(() => {});
+    const data = await response.json();
+
+    console.log("Telegram status:", response.status);
+    console.log("Telegram response:", data);
+
+    if (!response.ok || !data.ok) {
+      console.error("Telegram send failed:", data);
+      alert(
+        "Telegram Error:\n" +
+        (data.description || `HTTP ${response.status}`)
+      );
+      return false;
+    }
+
+    console.log("✅ Telegram message sent");
+    return true;
+
+  } catch (error) {
+    console.error("Telegram fetch error:", error);
+
+    alert(
+      "Telegram connection failed:\n" +
+      error.message
+    );
+
+    return false;
+  }
 }
 
   /* ===================== Sound effects (Web Audio, no files needed) ===================== */
